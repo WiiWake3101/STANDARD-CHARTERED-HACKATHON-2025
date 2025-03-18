@@ -9,12 +9,19 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/material": "^6.4.8",
+    "@react-pdf-viewer/core": "^3.12.0",
     "chart.js": "^4.4.8",
     "next": "15.2.3",
+    "next-transpile-modules": "^10.0.1",
+    "pdfjs-dist": "^3.9.179",
     "react": "^19.0.0",
     "react-chartjs-2": "^5.3.0",
     "react-dom": "^19.0.0",
-    "react-icons": "^5.5.0"
+    "react-icons": "^5.5.0",
+    "react-pdf": "^9.2.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

@@ -48,7 +48,7 @@ export default function Navbar() {
           <a href="/dashboard" className="block py-2 px-4 hover:bg-blue-300 rounded-md text-white">
             Dashboard
           </a>
-          <a href="/loan" className="block py-2 px-4 hover:bg-blue-300 rounded-md text-white">
+          <a href="/loan_application" className="block py-2 px-4 hover:bg-blue-300 rounded-md text-white">
             Loan Application
           </a>
           <a href="/profile" className="block py-2 px-4 hover:bg-blue-300 rounded-md text-white">
