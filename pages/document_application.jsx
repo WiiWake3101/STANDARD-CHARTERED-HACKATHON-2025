@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import PDFViewer from "./components/PDFViewer"; // Importing the PDFViewer component
 
-const LoanApplication = () => {
+const DocumentApplication = () => {
   const [aadharFile, setAadharFile] = useState(null);
   const [panFile, setPanFile] = useState(null);
   const [aadharPreviewUrl, setAadharPreviewUrl] = useState(null);
@@ -11,15 +11,30 @@ const LoanApplication = () => {
   // Handle file upload and generate preview
   const handleFileUpload = (event, setFile, setPreviewUrl) => {
     const file = event.target.files[0];
-
+    
     if (file && file.type === "application/pdf") {
       setFile(file);
-      setPreviewUrl(URL.createObjectURL(file)); // Generate a preview URL
+      
+      // Revoke the previous URL to free memory
+      setPreviewUrl((prevUrl) => {
+        if (prevUrl) {
+          URL.revokeObjectURL(prevUrl);
+        }
+        return URL.createObjectURL(file);
+      });
     } else {
       alert("Only PDF files are allowed!");
       event.target.value = "";
     }
   };
+
+  // Cleanup URLs on unmount to prevent memory leaks
+  useEffect(() => {
+    return () => {
+      if (aadharPreviewUrl) URL.revokeObjectURL(aadharPreviewUrl);
+      if (panPreviewUrl) URL.revokeObjectURL(panPreviewUrl);
+    };
+  }, [aadharPreviewUrl, panPreviewUrl]);
 
   return (
     <div className="bg-white min-h-screen flex">
@@ -30,8 +45,8 @@ const LoanApplication = () => {
       <div className="flex-1 p-6 ml-64 flex gap-8">
         {/* Left Section - File Uploads */}
         <div className="w-1/3 bg-gray-100 p-6 rounded-lg shadow-md">
-          <h1 className="text-2xl font-bold text-gray-900">Loan Application</h1>
-          <p className="text-gray-600 mt-2">Start your loan application process here.</p>
+          <h1 className="text-2xl font-bold text-gray-900">Document Application</h1>
+          <p className="text-gray-600 mt-2">Start your document submission process here.</p>
 
           {/* Aadhar Upload */}
           <label className="block text-gray-700 font-semibold mt-4 mb-2">Upload Aadhar Card</label>
@@ -73,7 +88,7 @@ const LoanApplication = () => {
 
           {/* Aadhar Preview */}
           {aadharPreviewUrl && (
-            <div className="mb-6 border border-gray-300 rounded-md overflow-hidden">
+            <div key={aadharPreviewUrl} className="mb-6 border border-gray-300 rounded-md overflow-hidden">
               <h3 className="text-md font-semibold text-gray-700 p-2 bg-gray-200">Aadhar Preview</h3>
               <PDFViewer fileUrl={aadharPreviewUrl} />
             </div>
@@ -81,7 +96,7 @@ const LoanApplication = () => {
 
           {/* PAN Preview */}
           {panPreviewUrl && (
-            <div className="border border-gray-300 rounded-md overflow-hidden">
+            <div key={panPreviewUrl} className="border border-gray-300 rounded-md overflow-hidden">
               <h3 className="text-md font-semibold text-gray-700 p-2 bg-gray-200">PAN Preview</h3>
               <PDFViewer fileUrl={panPreviewUrl} />
             </div>
@@ -92,4 +107,4 @@ const LoanApplication = () => {
   );
 };
 
-export default LoanApplication;
+export default DocumentApplication;

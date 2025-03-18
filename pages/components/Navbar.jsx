@@ -1,22 +1,49 @@
-import { useState } from "react";
-import { IoMenu, IoClose } from "react-icons/io5"; // Import icons
+import { useState, useEffect } from "react";
+import { IoMenu, IoClose } from "react-icons/io5";
 import { useRouter } from "next/router";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { app } from "../../firebaseConfig"; // Ensure firebase is properly initialized
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [username, setUsername] = useState("");
+  const [user, setUser] = useState(null);
   const router = useRouter();
+  const auth = getAuth(app);
 
-  const handleLogin = () => {
-    if (username.trim() !== "") {
-      router.push("/login");
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      if (!currentUser) {
+        localStorage.removeItem("user"); // Clear session
+        router.push("/"); // Redirect to login (index) if not logged in
+      }
+    });
+    return () => unsubscribe();
+  }, [auth, router]);
+
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+      localStorage.removeItem("user"); // Clear session
+      router.push("/"); // Redirect to index after sign out
+    } catch (error) {
+      console.error("Error signing out:", error);
     }
   };
 
+  // Define navigation links
+  const navLinks = [
+    { href: "/home", label: "Home" },
+    { href: "/dashboard", label: "Dashboard" },
+    { href: "/document_application", label: "Document Application" },
+    { href: "/AI_Video_Bot", label: "AI Video Bot" },
+    { href: "/loan_application", label: "Loan Application" },
+    { href: "/profile", label: "Profile" },
+  ];
+
   return (
     <>
-      {/* Mobile Hamburger Button (☰) - Hide when Sidebar is Open */}
-      {!isOpen && (
+      {!isOpen && user && (
         <button
           className="lg:hidden fixed top-4 left-4 z-50 text-3xl text-white transition-all duration-300"
           onClick={() => setIsOpen(true)}
@@ -31,40 +58,48 @@ export default function Navbar() {
           transform ${isOpen ? "translate-x-0" : "-translate-x-full"} 
           transition-transform duration-300 lg:translate-x-0 lg:w-64 lg:flex`}
       >
-        {/* Close (X) Button - Mobile View Only */}
-        <button
-          className="lg:hidden absolute top-4 right-4 text-3xl text-white"
-          onClick={() => setIsOpen(false)}
-        >
-          <IoClose />
-        </button>
+        {/* Close Button - Mobile View Only */}
+        {user && (
+          <button
+            className="lg:hidden absolute top-4 right-4 text-3xl text-white"
+            onClick={() => setIsOpen(false)}
+          >
+            <IoClose />
+          </button>
+        )}
 
         {/* Sidebar Content */}
         <h2 className="text-2xl font-bold mt-8 lg:mt-0">AI Branch Manager</h2>
-        <nav className="mt-6 space-y-4">
-          <a href="/home" className="block py-2 px-4 bg-white text-[#1453F9] rounded-md">
-            Home
-          </a>
-          <a href="/dashboard" className="block py-2 px-4 hover:bg-blue-300 rounded-md text-white">
-            Dashboard
-          </a>
-          <a href="/loan_application" className="block py-2 px-4 hover:bg-blue-300 rounded-md text-white">
-            Loan Application
-          </a>
-          <a href="/profile" className="block py-2 px-4 hover:bg-blue-300 rounded-md text-white">
-            Profile
-          </a>
-        </nav>
 
-        {/* Login Form Inside Navbar */}
-        <div className="mt-auto flex flex-col">
-          <button
-            onClick={handleLogin}
-            className="mt-4 px-6 py-2 bg-white text-[#1453F9] font-semibold rounded-lg hover:bg-blue-300 transition"
-          >
-            Login
-          </button>
-        </div>
+        {user && (
+          <>
+            <nav className="mt-6 space-y-4">
+              {navLinks.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className={`block py-2 px-4 rounded-md transition ${
+                    router.pathname === link.href
+                      ? "bg-white text-[#1453F9] font-semibold" // Active Page Styling
+                      : "hover:bg-blue-300 text-white"
+                  }`}
+                >
+                  {link.label}
+                </a>
+              ))}
+            </nav>
+
+            {/* Sign Out Button */}
+            <div className="mt-auto flex flex-col">
+              <button
+                onClick={handleSignOut}
+                className="mt-4 px-6 py-2 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 transition"
+              >
+                Sign Out
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </>
   );
