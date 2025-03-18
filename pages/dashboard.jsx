@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from 'react';
 import { Doughnut } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -8,12 +8,28 @@ import {
   Legend
 } from "chart.js";
 import Navbar from "./components/Navbar";
+import { db, auth } from "../firebaseConfig"; // Import Firebase configuration
+import { collection, doc, getDoc } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
 
 ChartJS.register(ArcElement, Title, Tooltip, Legend);
 
 export default function Dashboard() {
   // ✅ State for selected account
   const [selectedAccount, setSelectedAccount] = useState("Paid Checking");
+  const [userName, setUserName] = useState("User");
+
+  useEffect(() => {
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const userRef = doc(collection(db, "users"), user.uid);
+        const userSnap = await getDoc(userRef);
+        if (userSnap.exists()) {
+          setUserName(userSnap.data().name); // Fetch name from Firebase
+        }
+      }
+    });
+  }, []);
 
   // ✅ Account Overview Pie Chart Data
   const accountData = {
@@ -63,7 +79,7 @@ export default function Dashboard() {
         {/* ✅ Account Overview Section */}
         <div className="flex items-start">
           <div className="w-1/3">
-            <h1 className="text-3xl font-bold text-black text-left">Welcome, Vivek!</h1>
+            <h1 className="text-3xl font-bold text-black text-left">Welcome, {userName}!</h1>
             <p className="text-lg text-black mt-2 text-left">
               Access and manage your account efficiently.
             </p>

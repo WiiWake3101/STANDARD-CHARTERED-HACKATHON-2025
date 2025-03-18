@@ -4,8 +4,9 @@ import {
     signInWithEmailAndPassword, 
     signInWithPopup, 
     GoogleAuthProvider, 
-    createUserWithEmailAndPassword // ✅ Import createUserWithEmailAndPassword
+    createUserWithEmailAndPassword 
 } from "firebase/auth";
+import { getFirestore } from "firebase/firestore"; // ✅ Import Firestore
 
 const firebaseConfig = {
     apiKey: "AIzaSyCSwAVk7AeD5w_Cr2pa41nWvlLHd3Mvjls",
@@ -20,5 +21,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app); // ✅ Initialize Firestore
 const googleProvider = new GoogleAuthProvider();
-export { auth, signInWithEmailAndPassword, signInWithPopup, googleProvider, createUserWithEmailAndPassword }; // ✅ Export createUserWithEmailAndPassword
+
+export { auth, db, signInWithEmailAndPassword, signInWithPopup, googleProvider, createUserWithEmailAndPassword }; // ✅ Export db
