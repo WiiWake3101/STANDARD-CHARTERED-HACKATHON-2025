@@ -1,0 +1,44 @@
+Index,AI Chatbot,User
+1,Welcome! Are you looking to apply for a new loan today?,"Yes, I want to apply for a loan."
+2,"Great! What type of loan are you interested in? (Personal, Home, Auto, Business)",I am interested in a business loan.
+3,"I didn’t understand your response. Could you please specify if it’s Personal, Home, Auto, or Business loan?",I want a personal loan.
+4,What is the loan amount you need for your personal loan?,"I need a loan of 300,000 INR."
+5,"What is your preferred loan tenure? (e.g., 12, 24, 36 months)",I prefer a tenure of 36 months.
+6,Please upload your Aadhaar and PAN card for identity verification.,Uploading Aadhaar and PAN card...
+7,The uploaded Aadhaar image is blurry. Can you upload a clearer copy?,Uploading a new copy...
+8,Your PAN card is not visible in the uploaded document. Please re-upload it.,Uploading PAN card again...
+9,Please upload proof of income (salary slips or bank statements).,Uploading salary slips...
+10,Are you salaried or self-employed?,I am salaried.
+11,What is your monthly income?,"My monthly income is 20,000 INR."
+12,"Based on your income, your loan request may not be approved. Would you like to add a co-applicant?","Yes, I will add a co-applicant."
+13,Please upload your co-applicant’s income proof.,Uploading co-applicant’s documents...
+14,Your personal loan application has been submitted! You will receive an update soon.,Thank you!
+15,What is the loan amount required for your home loan?,"I need 3,500,000 INR for my home loan."
+16,What is the value of the property you are purchasing?,"The property is valued at 7,000,000 INR."
+17,"What is your preferred repayment tenure? (e.g., 10, 15, 20 years)",I prefer a tenure of 20 years.
+18,Please upload the property sale agreement and legal ownership documents.,Uploading property documents...
+19,The property sale agreement is missing a signature. Can you upload the signed version?,Uploading signed document...
+20,Do you have a co-applicant for the home loan?,"No, I am applying alone."
+21,What is your current credit score?,My credit score is 550.
+22,"Unfortunately, your credit score is below the required threshold. You can improve it by paying off debts and reapplying. Would you like to continue?","Yes, I will work on my score and reapply."
+23,What is the loan amount required for your vehicle?,"I need 900,000 INR for my car loan."
+24,"What type of vehicle are you purchasing? (Car, Bike, Commercial Vehicle)",I am buying a commercial vehicle.
+25,What is the cost of the vehicle?,"The vehicle costs 1,500,000 INR."
+26,Are you purchasing a new or used vehicle?,I am purchasing a used vehicle.
+27,Please upload the vehicle registration documents and dealer invoice.,Uploading documents...
+28,The uploaded invoice is outdated. Please provide the latest one from the dealer.,Uploading the latest invoice...
+29,Thank you! Your auto loan application has been submitted successfully!,Thank you!
+30,What is the loan amount required for your business?,"I need 10,000,000 INR for business expansion."
+31,"What type of business do you operate? (Proprietorship, Partnership, Private Limited)",I run a Proprietorship business.
+32,What is your business’s annual turnover?,"Our annual turnover is 5,000,000 INR."
+33,How many years have you been in business?,I have been running my business for 2 years.
+34,Please upload your business registration certificate and tax returns.,Uploading business documents...
+35,The tax returns provided are incomplete. Can you upload the complete set?,Uploading complete tax returns...
+36,"Unfortunately, businesses need a minimum of 3 years of operation for a loan approval. Would you like to provide additional financial documents?","Yes, I will submit my balance sheets and audit reports."
+37,Thank you! Your business loan application has been submitted for processing!,Thank you!
+38,Your application is under review. You will receive an update shortly.,"Okay, I’ll wait."
+39,Your loan has been approved! Would you like to proceed with disbursement?,"Yes, please proceed."
+40,Congratulations! Your loan has been successfully processed and disbursed.,Thank you so much!
+41,Your loan application has been rejected due to an issue with your documents. Would you like to reapply with correct documents?,"Yes, I will reapply."
+42,We found discrepancies in your declared income and provided proof. Can you submit additional verification?,"Yes, I will submit bank statements."
+43,Your employment status does not meet our eligibility criteria. Would you like to apply for a different loan type?,"Yes, I will explore other options."

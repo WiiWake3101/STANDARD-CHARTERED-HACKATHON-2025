@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Loan Assistant</title>
+    <style>
+        body { text-align: center; font-family: Arial, sans-serif; }
+        #videoContainer { display: none; margin-top: 20px; }
+        #loanSelection { display: none; margin-top: 20px; }
+        video { width: 80%; max-width: 800px; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <button id="startChat">Start Chat</button>
+
+    <div id="videoContainer">
+        <video id="videoPlayer" autoplay></video>
+    </div>
+
+    <div id="loanSelection">
+        <p>Select your loan type:</p>
+        <button onclick="selectLoan('personal')">Personal Loan</button>
+        <button onclick="selectLoan('home')">Home Loan</button>
+        <button onclick="selectLoan('auto')">Auto Loan</button>
+        <button onclick="selectLoan('business')">Business Loan</button>
+    </div>
+
+    <button id="nextButton" style="display: none;" onclick="playNextVideo()">Next</button>
+
+<script>
+    let currentVideoIndex = 0;
+    let currentType = "greeting";
+    let bufferVideo = "buffer.mp4";  // Buffer video
+    let lastPlayedVideo = "";  // Stores the last played video
+    const videoPlayer = document.getElementById("videoPlayer");
+    const videoContainer = document.getElementById("videoContainer");
+    const startChatBtn = document.getElementById("startChat");
+    const loanSelection = document.getElementById("loanSelection");
+    const nextButton = document.getElementById("nextButton");
+    const repeatButton = document.createElement("button");
+
+    // Setup Repeat button
+    repeatButton.textContent = "Repeat";
+    repeatButton.style.display = "none"; 
+    repeatButton.onclick = repeatVideo;
+    document.body.appendChild(repeatButton);
+
+    function fetchNextVideo() {
+        fetch('/get_next_video', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ type: currentType, index: currentVideoIndex })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.video) {
+                lastPlayedVideo = data.video;  // Store the last played video
+                videoPlayer.src = `/static/videos/${data.video}`;
+                videoPlayer.play();
+                currentVideoIndex++;
+
+                // Hide buttons while actual video is playing
+                nextButton.style.display = "none";  
+                repeatButton.style.display = "none";
+            } else {
+                videoContainer.style.display = "none";  
+            }
+        });
+    }
+
+    function playBufferVideo() {
+        videoPlayer.src = `/static/videos/${bufferVideo}`;
+        videoPlayer.loop = true;
+        videoPlayer.play();
+
+        // Show both "Next" and "Repeat" buttons
+        nextButton.style.display = "block";  
+        repeatButton.style.display = "block";
+    }
+
+    function playNextVideo() {
+        nextButton.style.display = "none";  
+        repeatButton.style.display = "none";  
+        videoPlayer.loop = false;  
+        fetchNextVideo();
+    }
+
+    function repeatVideo() {
+        nextButton.style.display = "none";  
+        repeatButton.style.display = "none";  
+        videoPlayer.loop = false;  
+        
+        // Replay the last played video
+        videoPlayer.src = `/static/videos/${lastPlayedVideo}`;
+        videoPlayer.play();
+    }
+
+    function startChat() {
+        startChatBtn.style.display = "none";
+        videoContainer.style.display = "block";
+        fetchNextVideo();
+    }
+
+    function selectLoan(loanType) {
+        currentType = loanType;
+        currentVideoIndex = 0;
+        loanSelection.style.display = "none";
+        fetchNextVideo();
+    }
+
+    videoPlayer.onended = function () {
+        if (currentType === "greeting" && currentVideoIndex === 2) {  
+            loanSelection.style.display = "block";  // Show loan buttons only after 2nd greeting video
+        } else {
+            playBufferVideo();  // Play buffer video when main video ends
+        }
+    };
+
+    startChatBtn.onclick = startChat;
+</script>
+
+
+
+</body>
+</html>
