@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Navbar from "./components/Navbar";
-import { Worker, Viewer } from "@react-pdf-viewer/core";
-import "@react-pdf-viewer/core/lib/styles/index.css"; // Required for styles
+import PDFViewer from "./components/PDFViewer"; // Importing the PDFViewer component
 
 const LoanApplication = () => {
   const [aadharFile, setAadharFile] = useState(null);
@@ -76,9 +75,7 @@ const LoanApplication = () => {
           {aadharPreviewUrl && (
             <div className="mb-6 border border-gray-300 rounded-md overflow-hidden">
               <h3 className="text-md font-semibold text-gray-700 p-2 bg-gray-200">Aadhar Preview</h3>
-              <Worker workerUrl={`https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js`}>
-                <Viewer fileUrl={aadharPreviewUrl} />
-              </Worker>
+              <PDFViewer fileUrl={aadharPreviewUrl} />
             </div>
           )}
 
@@ -86,9 +83,7 @@ const LoanApplication = () => {
           {panPreviewUrl && (
             <div className="border border-gray-300 rounded-md overflow-hidden">
               <h3 className="text-md font-semibold text-gray-700 p-2 bg-gray-200">PAN Preview</h3>
-              <Worker workerUrl={`https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js`}>
-                <Viewer fileUrl={panPreviewUrl} />
-              </Worker>
+              <PDFViewer fileUrl={panPreviewUrl} />
             </div>
           )}
         </div>
