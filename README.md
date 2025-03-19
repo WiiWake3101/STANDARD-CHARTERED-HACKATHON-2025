@@ -41,4 +41,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/b
 
 ## Video Demo
 
-Video-Demo-Standard-Chartered-Hackathon.mp4
+https://github.com/WiiWake3101/STANDARD-CHARTERED-HACKATHON-2025/blob/626ed32f587a293dfd6b1932509faa78cf113652/Video-Demo-Standard-Chartered-Hackathon.mp4
